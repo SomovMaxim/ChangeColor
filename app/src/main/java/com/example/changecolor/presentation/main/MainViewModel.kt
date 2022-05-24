@@ -26,5 +26,5 @@ class MainViewModel @Inject constructor(
 
     fun onHelpClicked() = _events.trySend(NavigationEvent.Help)
 
-    fun onExitClicked() = _events.trySend(NavigationEvent.Exit)
+    fun onExitClicked() = _events.trySend(NavigationEvent.ExitApplication)
 }

@@ -9,5 +9,14 @@
         android:id="@+id/mainFragment"
         android:name="com.example.changecolor.presentation.main.MainFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_inputColorDialogFragment"
+            app:destination="@id/inputColorDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/inputColorDialogFragment"
+        android:name="com.example.changecolor.presentation.inputColor.InputColorDialogFragment"
+        android:label="InputColorDialogFragment"
+        tools:layout="@layout/fragment_input_color_dialog" />
 </navigation>

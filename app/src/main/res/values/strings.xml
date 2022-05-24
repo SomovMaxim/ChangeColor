@@ -4,8 +4,12 @@
     <string name="change">Change</string>
     <string name="help">Help</string>
     <string name="exit">Exit</string>
-    <string name="red">Red</string>
-    <string name="green">Green</string>
-    <string name="blue">Blue</string>
+    <string name="red">Red:</string>
+    <string name="green">Green:</string>
+    <string name="blue">Blue:</string>
     <string name="color_input_hint">0 – 255</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="save">Save</string>
+    <string name="error">Invalid value</string>
 </resources>

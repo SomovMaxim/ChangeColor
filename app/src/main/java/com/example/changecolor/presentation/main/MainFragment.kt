@@ -1,7 +1,6 @@
 package com.example.changecolor.presentation.main
 
 import android.os.Bundle
-import android.os.Process
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -46,13 +45,13 @@ class MainFragment : Fragment() {
         when (event) {
             NavigationEvent.InputColor -> navigateToInputColorFragment()
             NavigationEvent.Help -> navigateToHelpFragment()
-            NavigationEvent.Exit -> requireActivity().finish()
+            NavigationEvent.ExitApplication -> requireActivity().finish()
         }
     }
 
     private fun navigateToInputColorFragment() {
         if (findNavController().currentDestination?.id == R.id.mainFragment) {
-//            findNavController().navigate(R.id.action_mainFragment_to_reverseDialogFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_inputColorDialogFragment)
         }
     }
 

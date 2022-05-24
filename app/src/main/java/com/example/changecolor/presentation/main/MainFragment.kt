@@ -1,5 +1,6 @@
 package com.example.changecolor.presentation.main
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,6 +33,7 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpOnClickListeners()
         setUpNavigation()
+        setUpBackground()
     }
 
     private fun setUpOnClickListeners() {
@@ -49,6 +51,16 @@ class MainFragment : Fragment() {
         }
     }
 
+    private fun setUpBackground() {
+        collectOnLifecycle(viewModel.leftSideColor) {
+            binding.layoutLeft.setBackgroundColor(Color.rgb(it.red, it.green, it.blue))
+        }
+
+        collectOnLifecycle(viewModel.rightSideColor) {
+            binding.layoutRight.setBackgroundColor(Color.rgb(it.red, it.green, it.blue))
+        }
+    }
+
     private fun navigateToInputColorFragment() {
         if (findNavController().currentDestination?.id == R.id.mainFragment) {
             findNavController().navigate(R.id.action_mainFragment_to_inputColorDialogFragment)
@@ -60,5 +72,4 @@ class MainFragment : Fragment() {
 //            findNavController().navigate(R.id.action_mainFragment_to_aboutFragment)
         }
     }
-
 }

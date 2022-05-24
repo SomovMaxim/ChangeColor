@@ -6,6 +6,6 @@ data class RgbColor(
     val blue: Int = DEFAULT_COLOR_VALUE
 ) {
     companion object {
-        const val DEFAULT_COLOR_VALUE = 0
+        const val DEFAULT_COLOR_VALUE = 255
     }
 }

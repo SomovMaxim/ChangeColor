@@ -1,7 +1,6 @@
 package com.example.changecolor.presentation.inputColor
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,8 +9,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.changecolor.R
 import com.example.changecolor.databinding.FragmentInputColorDialogBinding
-import com.example.changecolor.databinding.FragmentMainBinding
-import com.example.changecolor.presentation.main.MainViewModel
 import com.example.changecolor.presentation.util.collectOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,32 +50,30 @@ class InputColorDialogFragment : DialogFragment() {
     private fun setUpRedColorEditText() = binding.layoutRed.apply {
         editText?.doAfterTextChanged { viewModel.onRedColorChanged(it.toString()) }
         this@InputColorDialogFragment.collectOnLifecycle(viewModel.isRedColorValid) {
-            error = if (!it)  requireContext().getString(R.string.error) else ""
+            error = if (!it) requireContext().getString(R.string.error) else ""
         }
     }
 
     private fun setUpGreenColorEditText() = binding.layoutGreen.apply {
         editText?.doAfterTextChanged { viewModel.onGreenColorChanged(it.toString()) }
         this@InputColorDialogFragment.collectOnLifecycle(viewModel.isGreenColorValid) {
-            error = if (!it)  requireContext().getString(R.string.error) else ""
+            error = if (!it) requireContext().getString(R.string.error) else ""
         }
     }
 
     private fun setUpBlueColorEditText() = binding.layoutBlue.apply {
         editText?.doAfterTextChanged { viewModel.onBlueColorChanged(it.toString()) }
         this@InputColorDialogFragment.collectOnLifecycle(viewModel.isBlueColorValid) {
-            error = if (!it)  requireContext().getString(R.string.error) else ""
+            error = if (!it) requireContext().getString(R.string.error) else ""
         }
     }
 
-    private fun setUpSaveButton() {
-        binding.buttonSave.apply {
-            setOnClickListener { viewModel.onSaveClicked() }
-            this@InputColorDialogFragment.collectOnLifecycle(viewModel.isSaveButtonEnabled) {
-                isEnabled = it
-            }
+    private fun setUpSaveButton() = binding.buttonSave.apply {
+        setOnClickListener { viewModel.onSaveClicked() }
+        this@InputColorDialogFragment.collectOnLifecycle(viewModel.isSaveButtonEnabled) {
+            isEnabled = it
         }
     }
 
-    private fun setUpEvents() =collectOnLifecycle(viewModel.dismiss) { if (it) dismiss() }
+    private fun setUpEvents() = collectOnLifecycle(viewModel.dismiss) { if (it) dismiss() }
 }

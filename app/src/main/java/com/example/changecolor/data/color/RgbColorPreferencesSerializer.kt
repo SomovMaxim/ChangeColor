@@ -10,8 +10,8 @@ import java.io.InputStream
 import java.io.OutputStream
 
 object RgbColorPreferencesSerializer : Serializer<RgbColorPreferences> {
-    override val defaultValue:RgbColorPreferences
-            get() = RgbColorPreferences.getDefaultInstance()
+    override val defaultValue: RgbColorPreferences
+        get() = RgbColorPreferences.getDefaultInstance()
 
     override suspend fun readFrom(input: InputStream): RgbColorPreferences {
         try {

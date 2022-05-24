@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">ChangeColor</string>
+    <string name="input_color">Input color</string>
+    <string name="change">Change</string>
+    <string name="help">Help</string>
+    <string name="exit">Exit</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+    <string name="color_input_hint">0 – 255</string>
 </resources>

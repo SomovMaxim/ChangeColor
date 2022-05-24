@@ -8,10 +8,13 @@ import com.example.changecolor.domain.RgbColor
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RgbColorRepository(@ApplicationContext val context: Context) {
+class RgbColorRepository @Inject constructor(
+    @ApplicationContext val context: Context
+) {
 
     companion object {
         private const val RGB_COLOR_PREFERENCES_NAME = "rgb_color.pb"

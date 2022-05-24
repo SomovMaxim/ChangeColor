@@ -36,9 +36,5 @@ class RgbColorRepository @Inject constructor(
             .build()
     }
 
-    private fun RgbColorPreferences.toDomain(): RgbColor = RgbColor(
-        red = this.red,
-        green = this.green,
-        blue = this.blue
-    )
+    private fun RgbColorPreferences.toDomain(): RgbColor = RgbColor(red, green, blue)
 }

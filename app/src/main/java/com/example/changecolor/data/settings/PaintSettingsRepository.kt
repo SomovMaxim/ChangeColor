@@ -12,9 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PaintSettingsRepository @Inject constructor(
-    @ApplicationContext val context: Context
-) {
+class PaintSettingsRepository @Inject constructor(@ApplicationContext val context: Context) {
 
     companion object {
         private const val PAINT_SETTINGS_PREFERENCES_NAME = "paint_settings.pb"
@@ -36,7 +34,7 @@ class PaintSettingsRepository @Inject constructor(
     }
 
     private fun PaintSettingsPreferences.toDomain(): PaintSettings = PaintSettings(
-        isLeftSidePainted = this.isLeftSidePainted,
-        isRightSidePainted = this.isRightSidePainted
+        isLeftSidePainted = isLeftSidePainted,
+        isRightSidePainted = isRightSidePainted
     )
 }

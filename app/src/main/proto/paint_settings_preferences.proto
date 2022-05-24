@@ -1,0 +1,8 @@
+syntax = "proto3";
+option java_package = "com.example.changecolor.data";
+option java_multiple_files = true;
+
+message PaintSettingsPreferences{
+ bool isLeftSidePainted= 1;
+ bool isRightSidePainted = 2;
+}

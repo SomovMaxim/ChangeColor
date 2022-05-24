@@ -12,4 +12,6 @@
     <string name="right">Right</string>
     <string name="save">Save</string>
     <string name="error">Invalid value</string>
+    <string name="help_message">To input new color press \"Input color\"\nTo change background color press \"Change\"\nTo close application press \"Exit\"</string>
+    <string name="ok">OK</string>
 </resources>

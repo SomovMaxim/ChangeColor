@@ -13,10 +13,19 @@
         <action
             android:id="@+id/action_mainFragment_to_inputColorDialogFragment"
             app:destination="@id/inputColorDialogFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
     </fragment>
     <dialog
         android:id="@+id/inputColorDialogFragment"
         android:name="com.example.changecolor.presentation.inputColor.InputColorDialogFragment"
         android:label="InputColorDialogFragment"
         tools:layout="@layout/fragment_input_color_dialog" />
+
+    <dialog
+        android:id="@+id/helpFragment"
+        android:name="com.example.changecolor.presentation.help.HelpDialogFragment"
+        android:label="fragment_help"
+        tools:layout="@layout/fragment_help_dialog" />
 </navigation>

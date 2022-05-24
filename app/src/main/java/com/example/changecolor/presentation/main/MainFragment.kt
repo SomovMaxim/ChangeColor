@@ -1,6 +1,5 @@
 package com.example.changecolor.presentation.main
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +11,7 @@ import com.example.changecolor.R
 import com.example.changecolor.databinding.FragmentMainBinding
 import com.example.changecolor.presentation.util.NavigationEvent
 import com.example.changecolor.presentation.util.collectOnLifecycle
+import com.example.changecolor.presentation.util.setBackground
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,13 +52,8 @@ class MainFragment : Fragment() {
     }
 
     private fun setUpBackground() {
-        collectOnLifecycle(viewModel.leftSideColor) {
-            binding.layoutLeft.setBackgroundColor(Color.rgb(it.red, it.green, it.blue))
-        }
-
-        collectOnLifecycle(viewModel.rightSideColor) {
-            binding.layoutRight.setBackgroundColor(Color.rgb(it.red, it.green, it.blue))
-        }
+        collectOnLifecycle(viewModel.leftSideColor) { binding.layoutLeft.setBackground(it) }
+        collectOnLifecycle(viewModel.rightSideColor) { binding.layoutRight.setBackground(it) }
     }
 
     private fun navigateToInputColorFragment() {
@@ -69,7 +64,7 @@ class MainFragment : Fragment() {
 
     private fun navigateToHelpFragment() {
         if (findNavController().currentDestination?.id == R.id.mainFragment) {
-//            findNavController().navigate(R.id.action_mainFragment_to_aboutFragment)
+            findNavController().navigate(R.id.action_mainFragment_to_helpFragment)
         }
     }
 }

@@ -21,7 +21,7 @@ class InputColorViewModel @Inject constructor(
     private val settingsRepository: PaintSettingsRepository
 ) : ViewModel() {
 
-    private val firstAttach = MutableStateFlow(true)
+    private val firstShow = MutableStateFlow(true)
 
     private val _dismiss = Channel<Boolean>(Channel.UNLIMITED)
     val dismiss = _dismiss.receiveAsFlow()
@@ -29,62 +29,52 @@ class InputColorViewModel @Inject constructor(
     private var isLeftChecked: Boolean = false
     private var isRightChecked: Boolean = false
 
-    private val redColor = MutableStateFlow<Int?>(0)
-    private val greenColor = MutableStateFlow<Int?>(0)
-    private val blueColor = MutableStateFlow<Int?>(0)
+    private val red = MutableStateFlow<Int?>(0)
+    private val green = MutableStateFlow<Int?>(0)
+    private val blue = MutableStateFlow<Int?>(0)
 
-    val isRedColorValid = redColor.map { ColorValidator.validate(it) }
-    val isGreenColorValid = greenColor.map { ColorValidator.validate(it) }
-    val isBlueColorValid = blueColor.map { ColorValidator.validate(it) }
+    val isRedColorValid = red.map { ColorValidator.validate(it) }
+    val isGreenColorValid = green.map { ColorValidator.validate(it) }
+    val isBlueColorValid = blue.map { ColorValidator.validate(it) }
 
-    val isSaveButtonEnabled =
-        combine(redColor, greenColor, blueColor, firstAttach) { red, green, blue, first ->
-            if (first) false
-            else {
-                val colors = listOf(red, green, blue)
-                ColorValidator.validateAll(colors)
-            }
-        }
-
-
-    fun onLeftCheckBoxChecked(isChecked: Boolean) {
-        isLeftChecked = isChecked
+    val isSaveButtonEnabled = combine(red, green, blue, firstShow) { red, green, blue, first ->
+        if (first) false
+        else ColorValidator.validateAll(listOf(red, green, blue))
     }
 
-    fun onRightCheckBoxChecked(isChecked: Boolean) {
-        isRightChecked = isChecked
+    fun onLeftCheckBoxChecked() {
+        isLeftChecked = !isLeftChecked
     }
 
-    fun onRedColorChanged(value: String) = updateColor(value, redColor)
+    fun onRightCheckBoxChecked() {
+        isRightChecked = !isRightChecked
+    }
 
-    fun onGreenColorChanged(value: String) = updateColor(value, greenColor)
+    fun onRedColorChanged(value: String) = updateColor(value, red)
 
-    fun onBlueColorChanged(value: String) = updateColor(value, blueColor)
+    fun onGreenColorChanged(value: String) = updateColor(value, green)
+
+    fun onBlueColorChanged(value: String) = updateColor(value, blue)
 
     fun onSaveClicked() = saveData()
 
-    private fun updateColor(colorInString: String, colorToUpdate: MutableStateFlow<Int?>) {
+    private fun updateColor(color: String, colorToUpdate: MutableStateFlow<Int?>) {
         try {
-            val colorInInt = colorInString.toInt()
-            colorToUpdate.update { colorInInt }
+            colorToUpdate.update { color.toInt() }
         } catch (e: Exception) {
             colorToUpdate.update { null }
         } finally {
-            firstAttach.update { false }
+            firstShow.update { false }
         }
     }
 
     private fun saveData() {
         val color = RgbColor(
-            red = redColor.value ?: DEFAULT_COLOR_VALUE,
-            green = greenColor.value ?: DEFAULT_COLOR_VALUE,
-            blue = blueColor.value ?: DEFAULT_COLOR_VALUE
+            red = red.value ?: DEFAULT_COLOR_VALUE,
+            green = green.value ?: DEFAULT_COLOR_VALUE,
+            blue = blue.value ?: DEFAULT_COLOR_VALUE
         )
-
-        val settings = PaintSettings(
-            isLeftSidePainted = isLeftChecked,
-            isRightSidePainted = isRightChecked
-        )
+        val settings = PaintSettings(isLeftChecked, isRightChecked)
 
         viewModelScope.launch {
             colorRepository.setColor(color)

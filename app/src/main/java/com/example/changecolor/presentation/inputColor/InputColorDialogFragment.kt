@@ -10,7 +10,9 @@ import androidx.fragment.app.viewModels
 import com.example.changecolor.R
 import com.example.changecolor.databinding.FragmentInputColorDialogBinding
 import com.example.changecolor.presentation.util.collectOnLifecycle
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
 
 @AndroidEntryPoint
 class InputColorDialogFragment : DialogFragment() {
@@ -30,50 +32,33 @@ class InputColorDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpCheckBoxes()
-        setUpRedColorEditText()
-        setUpGreenColorEditText()
-        setUpBlueColorEditText()
+        setUpInputLayouts()
         setUpSaveButton()
         setUpEvents()
     }
 
     private fun setUpCheckBoxes() {
-        binding.checkboxLeft.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onLeftCheckBoxChecked(isChecked)
-        }
-
-        binding.checkboxRight.setOnCheckedChangeListener { _, isChecked ->
-            viewModel.onRightCheckBoxChecked(isChecked)
-        }
+        binding.checkboxLeft.setOnCheckedChangeListener { _, _ -> viewModel.onLeftCheckBoxChecked() }
+        binding.checkboxRight.setOnCheckedChangeListener { _, _ -> viewModel.onRightCheckBoxChecked() }
     }
 
-    private fun setUpRedColorEditText() = binding.layoutRed.apply {
-        editText?.doAfterTextChanged { viewModel.onRedColorChanged(it.toString()) }
-        this@InputColorDialogFragment.collectOnLifecycle(viewModel.isRedColorValid) {
-            error = if (!it) requireContext().getString(R.string.error) else ""
-        }
-    }
-
-    private fun setUpGreenColorEditText() = binding.layoutGreen.apply {
-        editText?.doAfterTextChanged { viewModel.onGreenColorChanged(it.toString()) }
-        this@InputColorDialogFragment.collectOnLifecycle(viewModel.isGreenColorValid) {
-            error = if (!it) requireContext().getString(R.string.error) else ""
-        }
-    }
-
-    private fun setUpBlueColorEditText() = binding.layoutBlue.apply {
-        editText?.doAfterTextChanged { viewModel.onBlueColorChanged(it.toString()) }
-        this@InputColorDialogFragment.collectOnLifecycle(viewModel.isBlueColorValid) {
-            error = if (!it) requireContext().getString(R.string.error) else ""
-        }
+    private fun setUpInputLayouts() {
+        binding.layoutRed.setUp(viewModel::onRedColorChanged, viewModel.isRedColorValid)
+        binding.layoutGreen.setUp(viewModel::onGreenColorChanged, viewModel.isGreenColorValid)
+        binding.layoutBlue.setUp(viewModel::onBlueColorChanged, viewModel.isBlueColorValid)
     }
 
     private fun setUpSaveButton() = binding.buttonSave.apply {
         setOnClickListener { viewModel.onSaveClicked() }
-        this@InputColorDialogFragment.collectOnLifecycle(viewModel.isSaveButtonEnabled) {
-            isEnabled = it
-        }
+        collectOnLifecycle(viewModel.isSaveButtonEnabled) { isEnabled = it }
     }
 
     private fun setUpEvents() = collectOnLifecycle(viewModel.dismiss) { if (it) dismiss() }
+
+    private fun TextInputLayout.setUp(onChanged: (String) -> Unit, flow: Flow<Boolean>) {
+        editText?.doAfterTextChanged { onChanged(it.toString()) }
+        collectOnLifecycle(flow) {
+            error = if (!it) requireContext().getString(R.string.error) else ""
+        }
+    }
 }
